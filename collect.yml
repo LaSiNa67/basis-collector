@@ -1,0 +1,52 @@
+name: collect basis
+
+on:
+  schedule:
+    # Every 5 minutes. GitHub's scheduler is best-effort and will sometimes
+    # skip or delay a tick under load - that is fine, the dataset is a time
+    # series with irregular spacing, not a fixed grid. We record actual
+    # timestamps, so gaps are visible rather than silently interpolated.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:  # lets you trigger a run by hand from the Actions tab
+
+permissions:
+  contents: write
+
+# Never let two runs push at once.
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sample prices
+        env:
+          FINNHUB_KEY: ${{ secrets.FINNHUB_KEY }}
+        run: python collect.py
+
+      - name: Commit
+        run: |
+          git config user.name "basis-collector"
+          git config user.email "actions@github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "nothing new"
+            exit 0
+          fi
+          git commit -m "sample $(date -u +%Y-%m-%dT%H:%MZ)"
+          # Another run may have landed while we were sampling.
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep 5
+          done
+          echo "push failed after 3 attempts" >&2
+          exit 1
