@@ -79,6 +79,24 @@ tbody tr:last-child td{border-bottom:none}
   border:1px dashed var(--line);border-radius:3px;padding:28px;
   color:var(--mist);font-size:15px;
 }
+
+/* ---------- findings ---------- */
+.findings{margin-top:52px;padding-top:36px;border-top:1px solid var(--line)}
+.findings p{color:var(--mist);font-size:15px;max-width:68ch;margin-bottom:14px}
+.findings p strong{color:var(--chalk);font-weight:600}
+.stat-row{display:flex;gap:44px;flex-wrap:wrap;margin:26px 0 30px}
+.stat .n{font-size:27px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat .k{color:var(--mist);font-size:13.5px;margin-top:2px;max-width:24ch}
+.caveat{color:var(--flat);font-size:13.5px;max-width:68ch;margin-top:20px;line-height:1.55}
+
+/* ---------- dislocation ---------- */
+.flag{
+  display:inline-block;padding:1px 7px;border-radius:2px;font-size:12px;
+  background:rgba(227,163,63,.14);color:var(--premium);margin-left:7px;
+}
+.zc{color:var(--mist);font-variant-numeric:tabular-nums}
+.zc.hot{color:var(--premium);font-weight:600}
+.range{color:var(--flat);font-size:13px}
 footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--mist);font-size:13.5px}
 footer a{color:var(--mist)}
 
@@ -124,6 +142,8 @@ footer a{color:var(--mist)}
           <th>On-chain</th>
           <th>Reference</th>
           <th>Gap</th>
+          <th class="hide-sm">Normal range</th>
+          <th>Dislocation</th>
         </tr>
       </thead>
       <tbody id="rows"></tbody>
@@ -134,6 +154,46 @@ footer a{color:var(--mist)}
     <h2>Since the last closing bell</h2>
     <p class="state-detail" id="hist-note" style="margin-bottom:14px"></p>
     <div id="hist-wrap"></div>
+  </section>
+
+  <section class="findings">
+    <h2>What we found</h2>
+
+    <div class="stat-row">
+      <div class="stat"><div class="n" id="s-ratio">—</div>
+        <div class="k">more basis volatility while the market is shut</div></div>
+      <div class="stat"><div class="n" id="s-hours">—</div>
+        <div class="k">hours observed with no underlying market</div></div>
+      <div class="stat"><div class="n">11h</div>
+        <div class="k">tokens repriced ahead of any futures market</div></div>
+    </div>
+
+    <p>On Saturday 12 September, Dario Amodei published an essay calling for the AI
+      industry to slow frontier development. Musk and Altman backed it within hours.
+      No equity market was open. No futures market was open — CME reopens Sunday at
+      22:00 UTC.</p>
+
+    <p><strong>Tokenized equities repriced between 07:00 and 11:00 UTC on Sunday</strong>,
+      around eleven hours before any futures market existed to price the news. The
+      average token fell about 90 bps against a reference that could not move.</p>
+
+    <p>The pattern is the evidence. NVDAx repriced −176 bps; SPYx, the broad index,
+      −64. QQQx moved 1.7× SPYx — and when futures did open, Nasdaq 100 futures fell
+      over 1% against the S&amp;P's 0.6%, a ratio of 1.67. The two crypto proxies,
+      COINx and MSTRx, moved <em>least</em>, which is the opposite of what a weekend
+      liquidity drain would produce.</p>
+
+    <p>We published a forecast of Monday's open before the bell and then scored it
+      against ourselves. <strong>It was mixed.</strong> SPY was exact to the basis
+      point and NVDA fell hardest as predicted, but four of ten names went the wrong
+      way and COIN missed by seven points on news that broke after we froze the
+      forecast. Both documents are in the repository, unedited.</p>
+
+    <p class="caveat">This is one event on one weekend. A single correct sector call
+      is an anecdote, not an edge. What the data supports is narrow: during a full
+      closure, tokenized equities priced macro news in the right direction with the
+      right cross-sectional ordering. It does not support using them to predict
+      individual opening prices — Monday showed that clearly.</p>
   </section>
 
   <footer>
@@ -154,6 +214,8 @@ let mints = {};     // symbol -> mint address
 let live = {};      // mint -> live usd price
 let history = [];   // [{t, mean, lo, hi, session}]
 let liveOk = false;
+let baselines = {}; // symbol -> {OPEN:{mean,sd,n}, CLOSED:{...}}
+let statRatio = null, statShutHours = 0;
 
 /* ---------------- loading ---------------- */
 
@@ -209,6 +271,44 @@ async function loadData(){
 
   const times = [...byTime.keys()].sort();
   latest = byTime.get(times[times.length-1]);
+
+  // Baselines: a token's basis behaves completely differently depending on
+  // whether the underlying market is trading, so we keep two distributions per
+  // token rather than one meaningless blended figure.
+  const bucket = {};
+  rows.forEach(r=>{
+    const k = r.session === "OPEN" ? "OPEN" : "CLOSED";
+    (bucket[r.symbol] = bucket[r.symbol] || {OPEN:[], CLOSED:[]})[k].push(parseFloat(r.basis_bps));
+  });
+  baselines = {};
+  Object.entries(bucket).forEach(([sym,b])=>{
+    baselines[sym] = {};
+    ["OPEN","CLOSED"].forEach(k=>{
+      const v = b[k];
+      if(v.length < 12){ baselines[sym][k] = null; return; }  // too thin to trust
+      const m = v.reduce((a,c)=>a+c,0)/v.length;
+      const sd = Math.sqrt(v.reduce((a,c)=>a+(c-m)*(c-m),0)/v.length);
+      baselines[sym][k] = {mean:m, sd:sd, n:v.length};
+    });
+  });
+
+  // Headline stats for the findings panel, recomputed rather than hardcoded.
+  const ratios = Object.values(baselines)
+    .filter(b=>b.OPEN && b.CLOSED && b.OPEN.sd > 0)
+    .map(b=>b.CLOSED.sd / b.OPEN.sd);
+  statRatio = ratios.length ? ratios.reduce((a,c)=>a+c,0)/ratios.length : null;
+  // Observed shut time: sum the real gaps between consecutive closed samples,
+  // ignoring any gap longer than an hour so a collector outage is not counted
+  // as observation.
+  const sess = {};
+  rows.forEach(r=> sess[r.ts_utc] = r.session);
+  let shutMs = 0;
+  for(let i=1;i<times.length;i++){
+    if(sess[times[i]] === "OPEN") continue;
+    const d = new Date(times[i]) - new Date(times[i-1]);
+    if(d > 0 && d < 3600000) shutMs += d;
+  }
+  statShutHours = shutMs / 3600000;
 
   history = times.map(t=>{
     const g = byTime.get(t);
@@ -334,24 +434,54 @@ function drawPlot(){
     (liveOk ? "" : " Live feed unreachable — showing the most recent sample.");
 }
 
+function baselineFor(sym){
+  const key = sessionState().open ? "OPEN" : "CLOSED";
+  const b = baselines[sym];
+  return b ? b[key] : null;
+}
+
 function drawTable(){
   const tb = document.getElementById("rows");
   tb.innerHTML = latest.map(r=>{
     const c = currentBasis(r);
     const cls = Math.abs(c.bps) < 3 ? "zero" : (c.bps > 0 ? "up" : "down");
     const sign = c.bps > 0 ? "+" : "";
+
+    const b = baselineFor(r.symbol);
+    let rangeCell = `<span class="range">—</span>`, zCell = `<span class="zc">—</span>`;
+    if(b && b.sd > 0){
+      const lo = b.mean - 2*b.sd, hi = b.mean + 2*b.sd;
+      const z = (c.bps - b.mean) / b.sd;
+      rangeCell = `<span class="range">${lo.toFixed(0)} to ${hi.toFixed(0)}</span>`;
+      zCell = `<span class="zc${Math.abs(z)>=2?" hot":""}">${z>=0?"+":""}${z.toFixed(1)}σ</span>`
+        + (Math.abs(z)>=2 ? `<span class="flag">outside</span>` : "");
+    }
+
     return `<tr>
       <td>${r.symbol}</td>
       <td class="hide-sm frozen">${r.underlying}</td>
       <td class="num">$${c.price.toFixed(2)}</td>
       <td class="num frozen">$${parseFloat(r.ref_price).toFixed(2)}</td>
       <td class="num bps ${cls}">${sign}${c.bps.toFixed(1)}</td>
+      <td class="num hide-sm">${rangeCell}</td>
+      <td class="num">${zCell}</td>
     </tr>`;
   }).join("");
 
-  document.getElementById("table-note").textContent = liveOk
-    ? "On-chain prices refresh every 30 seconds. Gap shown in basis points; 100 bps is one percent."
-    : "Showing the last committed sample. Gap shown in basis points; 100 bps is one percent.";
+  drawFindings();
+
+  const open = sessionState().open;
+  document.getElementById("table-note").textContent =
+    (liveOk ? "On-chain prices refresh every 30 seconds. " : "Showing the last committed sample. ")
+    + `Gap in basis points; 100 bps is one percent. Normal range is this token's own history `
+    + `while the market is ${open ? "open" : "shut"} — two standard deviations either side.`;
+}
+
+function drawFindings(){
+  const r = document.getElementById("s-ratio");
+  const h = document.getElementById("s-hours");
+  if(r && statRatio) r.textContent = statRatio.toFixed(1) + "×";
+  if(h) h.textContent = Math.round(statShutHours) + "h";
 }
 
 function drawHistory(){
