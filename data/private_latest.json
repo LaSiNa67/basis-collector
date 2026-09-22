@@ -1,0 +1,174 @@
+{
+  "generated_utc": "2026-09-22T19:09:35Z",
+  "tokens": [
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "tessera",
+      "company": "OpenAI",
+      "symbol": "T-OpenAI",
+      "mint": "oPAiAikWTaFj9RYoRFD35ccfwhnMcB3ThgBZRHSkjTZ",
+      "token_usd": 1046.6824445546802,
+      "mark_usd": 812.79,
+      "basis_bps": 2877.65,
+      "mark_valuation_usd": 950000000000.0,
+      "implied_valuation_usd": 1223376668422,
+      "token_price_source": "jupiter"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "tessera",
+      "company": "Kalshi",
+      "symbol": "T-Kalshi",
+      "mint": "TKLSidmLVt3cqGaaodG8tyRzoANfQwoh67AccjmubeZ",
+      "token_usd": 447.1897597069071,
+      "mark_usd": 413.8,
+      "basis_bps": 806.91,
+      "mark_valuation_usd": 14000000000.0,
+      "implied_valuation_usd": 15129668042,
+      "token_price_source": "jupiter"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "tessera",
+      "company": "SpaceX",
+      "symbol": "T-SpaceX",
+      "mint": "TSPXcLV76s6V2zDiZQ18kBfcbnjaE2ZzNT3ga2Pd99v",
+      "token_usd": 562.2001095504875,
+      "mark_usd": 423.0,
+      "basis_bps": 3290.78,
+      "mark_valuation_usd": 800000000000.0,
+      "implied_valuation_usd": 1063262618535,
+      "token_price_source": "jupiter"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Anduril",
+      "symbol": "ANDURIL",
+      "mint": "",
+      "token_usd": 150.96321153808273,
+      "mark_usd": 152.4854432,
+      "basis_bps": -99.83,
+      "mark_valuation_usd": 134903727849.0,
+      "implied_valuation_usd": 133557010933,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Anthropic",
+      "symbol": "ANTHROPIC",
+      "mint": "",
+      "token_usd": 1068.2180110847669,
+      "mark_usd": 1050.45292467,
+      "basis_bps": 169.12,
+      "mark_valuation_usd": 1721001463993.0,
+      "implied_valuation_usd": 1750106756586,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Figure AI",
+      "symbol": "FIGUREAI",
+      "mint": "",
+      "token_usd": 182.42535385569707,
+      "mark_usd": 181.89828995,
+      "basis_bps": 28.98,
+      "mark_valuation_usd": 39658735561.0,
+      "implied_valuation_usd": 39773649715,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Kalshi",
+      "symbol": "KALSHI",
+      "mint": "",
+      "token_usd": 871.7861803354498,
+      "mark_usd": 886.75502835,
+      "basis_bps": -168.8,
+      "mark_valuation_usd": 32253100922.0,
+      "implied_valuation_usd": 31708653188,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Neuralink",
+      "symbol": "NEURALINK",
+      "mint": "",
+      "token_usd": 447.4409600343427,
+      "mark_usd": 338.63423679,
+      "basis_bps": 3213.1,
+      "mark_valuation_usd": 64508145701.0,
+      "implied_valuation_usd": 85235287832,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "OpenAI",
+      "symbol": "OPENAI",
+      "mint": "",
+      "token_usd": 1525.2419123346642,
+      "mark_usd": 1005.5125607524002,
+      "basis_bps": 5168.8,
+      "mark_valuation_usd": 1245759976382.0,
+      "implied_valuation_usd": 1889668416738,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "Polymarket",
+      "symbol": "POLYMARKET",
+      "mint": "",
+      "token_usd": 147.86510656555117,
+      "mark_usd": 144.08231778,
+      "basis_bps": 262.54,
+      "mark_valuation_usd": 14210228593.0,
+      "implied_valuation_usd": 14583309025,
+      "token_price_source": "issuer"
+    },
+    {
+      "ts_utc": "2026-09-22T19:09:35Z",
+      "issuer": "prestocks",
+      "company": "SpaceX",
+      "symbol": "SPACEX",
+      "mint": "",
+      "token_usd": 109.8418157395369,
+      "mark_usd": 153.02137580050726,
+      "basis_bps": -2821.8,
+      "mark_valuation_usd": 2006280260496.0,
+      "implied_valuation_usd": 1440148250808,
+      "token_price_source": "issuer"
+    }
+  ],
+  "cross_issuer": [
+    {
+      "company": "Kalshi",
+      "tessera_implied_usd": 15129668042,
+      "prestocks_implied_usd": 31708653188,
+      "divergence_pct": 109.6
+    },
+    {
+      "company": "OpenAI",
+      "tessera_implied_usd": 1223376668422,
+      "prestocks_implied_usd": 1889668416738,
+      "divergence_pct": 54.5
+    },
+    {
+      "company": "SpaceX",
+      "tessera_implied_usd": 1063262618535,
+      "prestocks_implied_usd": 1440148250808,
+      "divergence_pct": 35.4
+    }
+  ],
+  "notes": {
+    "basis_bps": "(token - issuer's own mark) / mark * 10000.",
+    "implied_valuation_usd": "mark_valuation * token_price / mark_price. What the market is currently paying for the whole company.",
+    "divergence_pct": "Gap between the two issuers' implied valuations for the same company.",
+    "caution": "Issuers may define valuation differently (fully diluted vs post-money, different share classes, different SPV structures). Some of the gap is likely definitional rather than disagreement. We cannot separate the two."
+  }
+}
