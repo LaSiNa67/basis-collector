@@ -1,0 +1,51 @@
+name: collect private
+
+# Deliberately separate from "collect basis". The public-equity collector is the
+# dataset this project rests on; it has run uninterrupted since 11 September and
+# nothing here is allowed to affect it. Different file, different concurrency
+# group, different schedule.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-private
+  cancel-in-progress: false
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sample pre-IPO tokens
+        run: python collect_private.py
+
+      - name: Commit
+        run: |
+          git config user.name "basis-collector"
+          git config user.email "actions@github.com"
+          # Only our own files, so a run can never commit something the main
+          # collector left half-written.
+          git add data/private.csv data/private_latest.json || true
+          if git diff --staged --quiet; then
+            echo "nothing new"
+            exit 0
+          fi
+          git commit -m "private sample $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep 5
+          done
+          echo "push failed after 3 attempts" >&2
+          exit 1
