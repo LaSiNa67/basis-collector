@@ -1,80 +1,142 @@
 # AfterHours
 
-**What is a tokenized stock worth when the stock market is closed?**
+**What is a tokenized stock worth when the market behind it is closed?**
 
 Live dashboard: https://lasina67.github.io/basis-collector/
-Dataset: [`data/basis.csv`](data/basis.csv)
+Findings: [RESULTS.md](RESULTS.md) · Pre-registered forecast: [PREDICTION.md](PREDICTION.md)
 
 ---
 
 ## The gap nobody measures
 
-Tokenized equities are the fastest-growing real-world-asset category on Solana.
-In Q2 2026 the chain did roughly $5.8bn in spot DEX volume for tokenized stocks,
-about 95% of the global total.
+Tokenized equities trade 24/7. The shares behind them do not.
 
-Those tokens trade 24/7. The shares behind them do not.
+From Friday's close to Monday's open, AAPLx has a live, moving price and AAPL
+has none. For about 62 hours every week — plus 17.5 hours every weeknight — the
+largest tokenized asset class on Solana is priced against a number that no
+longer exists.
 
-From Friday's closing bell to Monday's open, AAPLx has a live, moving price and
-AAPL has none. For about 62 hours every week — plus 17.5 hours every weeknight —
-the entire asset class is priced against a reference that no longer exists.
+Nobody was publishing what happens in that gap. AfterHours has been sampling it
+every few minutes since 11 September and has not stopped.
 
-How far do the tokens drift in that window? As far as we can tell, nobody has
-published the answer. AfterHours measures it.
+**Thirteen days. 1,475 snapshots. 14,750 rows. 252 hours observed with no
+underlying market open.** Ten xStocks, plus eleven pre-IPO tokens across two
+issuers. Every sample committed to git, so the whole history is timestamped and
+independently checkable.
 
-## Why it matters beyond curiosity
+## What the data says
 
-Tokenized equities are increasingly used as DeFi collateral, including as
-collateral for leveraged positions. A lending protocol liquidating a position at
-3am on a Sunday is pricing against a closing print that is two days old.
+**1. The gap is 3.5× more volatile when the market is shut** than when it
+trades, averaged across ten tokens.
 
-The size of the drift between the token and that stale reference is the
-difference between a fair liquidation and a wrong one. That number is currently
-unmeasured, which means the risk is unpriced.
+**2. Tokens are followers, not leaders.** We scored what tokens implied on
+Sunday night — before CME futures reopen at 22:00 UTC, when nothing anywhere is
+trading — against Monday's open:
 
-## What this repository contains
+| | Direction right | Rank correlation |
+|---|---|---|
+| Before any venue opened (both weekends) | **10 / 20** | 0.59, 0.60 |
+| Once US pre-market was trading | **18 / 20** | 0.85, 0.98 |
+
+With nothing to copy, direction is a coin flip. Once there is a quote to follow,
+tokens track it closely.
+
+**3. Something does survive.** That rank correlation of about 0.6, measured
+before any venue opened, held on both weekends. Tokens appear to carry some
+information about which names will move more than others, even when they cannot
+say which way. Weak and borderline at ten names — but it replicated.
+
+**4. A recurring Sunday-morning drop** in the same clock window on both
+weekends, which we cannot explain.
+
+## Pre-IPO: the same question without any market at all
+
+A tokenized share of SpaceX has no open market behind it. Not on weekends —
+ever. The only reference is the issuer's own valuation mark, and the
+dislocations are an order of magnitude larger than anything in public equities.
+
+At the time of writing, SpaceX trades **21% below** its mark at one issuer and
+**33% above** it at the other. Same company, same day, opposite directions.
+
+Several companies are tokenized by both Tessera and PreStocks. Token prices are
+not directly comparable — they are scaled differently — so each is converted to
+an implied company valuation:
+
+    implied_valuation = mark_valuation × (token_price / mark_price)
+
+Two markets pricing the same private company, with no public market anywhere to
+tie them together:
+
+| Company | Apart by |
+|---|---|
+| Kalshi | 107% |
+| SpaceX | 43% |
+| OpenAI | 39% |
+
+## Why this matters
+
+Tokenized equities are increasingly used as DeFi collateral.
+
+A lending protocol liquidating a position at 3am on a Sunday is working with two
+numbers it cannot trust: a reference price two days stale, and a live token
+price that — as the data above shows — is not a dependable substitute for it.
+Meanwhile the gap between them is several times more volatile than on any
+trading day.
+
+That gap was unmeasured. It is now published continuously.
+
+## The feed
+
+Every run publishes machine-readable state:
+
+- [`data/latest.json`](data/latest.json) — xStocks: current price, reference,
+  **how many hours old that reference is**, and how unusual the current gap is
+  for that specific token
+- [`data/private_latest.json`](data/private_latest.json) — pre-IPO, including
+  cross-issuer implied valuations
+- [`data/basis.csv`](data/basis.csv) — the full append-only history
+
+`reference_age_hours` is the field most worth having and the one nobody else
+publishes.
+
+## Repository
 
 | | |
 |---|---|
-| `collect.py` | The sampler. Stdlib only, no dependencies. |
-| `.github/workflows/collect.yml` | Scheduled job that runs it and commits the result. |
-| `data/basis.csv` | Every sample ever taken. Append-only. |
-| `data/mints.json` | Resolved Solana mint address for each tracked token. |
+| `collect.py` | xStocks sampler. Stdlib only, no dependencies. |
+| `collect_private.py` | Pre-IPO sampler, Tessera + PreStocks. |
+| `.github/workflows/` | Scheduled jobs that run them and commit results. |
+| `data/` | Every sample ever taken, plus the live feeds. |
 | `index.html` | The dashboard. Single file, no build step. |
+| `RESULTS.md` | Findings, and every claim we have retracted. |
+| `PREDICTION.md` | A forecast committed before the market opened. Unedited. |
 
 ## Method
 
-A scheduled GitHub Actions job samples prices and appends them to a CSV
-committed back to this repository.
+Scheduled GitHub Actions jobs sample prices and commit them back to this
+repository. No server, no database — the dataset is the git history, so every
+sample carries an independent, publicly verifiable timestamp.
 
 **On-chain prices** come from Jupiter's Price API v3, batched into a single
-request across all tracked mints so every token in a snapshot is priced at
-effectively the same instant.
+request so every token in a snapshot is priced at effectively the same instant.
 
-**Reference prices** come from Finnhub. While the market is open this is the
-live last trade; while it is shut, the field holds the closing print, which is
-exactly the stale reference a protocol would be marking against.
+**Reference prices** for xStocks come from Finnhub. While the market is open
+this is the live last trade; while it is shut, the field holds the closing
+print — exactly the stale reference a protocol would be marking against.
+Pre-IPO marks come from the Tessera and PreStocks APIs.
 
-**Mint addresses are resolved, not hardcoded.** On first run the collector
-searches Jupiter's token list for each symbol and accepts only an exact match.
-A hardcoded address that is wrong does not throw an error — it quietly prices a
-different token, and you find out days later. All ten resolved addresses carry
-the `Xs` prefix used across the xStocks line.
+**Mint addresses are resolved, not hardcoded.** The collector searches Jupiter's
+token list for each symbol and accepts only an exact match. A hardcoded address
+that is wrong does not throw an error — it quietly prices a different token, and
+you find out days later.
 
-**Every sample is labelled** with the market session (`OPEN`, `PREMARKET`,
-`AFTERHOURS`, `WEEKEND`) and with hours elapsed since the last real closing
-print. That second field is what makes the central question answerable: does
-drift grow the longer the market stays shut?
+**Every sample is labelled** with the market session and with hours elapsed
+since the last real closing print. That second field is what makes the central
+question answerable.
 
-There is no server and no database. The dataset is the git history, so every
-sample carries an independent, publicly verifiable commit timestamp.
-
-## Universe
-
-Ten of the most liquid xStocks, chosen because thin tokens produce basis noise
-rather than basis signal:
-
-`AAPLx` `NVDAx` `TSLAx` `MSTRx` `GOOGLx` `METAx` `AMZNx` `SPYx` `QQQx` `COINx`
+**Baselines are session-aware.** Each token's normal range is computed from its
+own history, split by whether the market was trading, because the same token
+behaves completely differently in the two states.
 
 ## Data dictionary
 
@@ -89,36 +151,45 @@ rather than basis signal:
 | `ref_prev_close` | Previous session's close |
 | `session` | `OPEN` / `PREMARKET` / `AFTERHOURS` / `WEEKEND` |
 | `hours_since_close` | Hours since the last real closing print |
-| `basis_bps` | `(onchain − ref) / ref × 10000` |
-
-Basis is signed. Positive means the token trades above its reference; negative
-means below.
+| `basis_bps` | `(onchain − ref) / ref × 10000`, signed |
 
 ## Limitations
 
 Stated plainly, because a measurement project that hides its caveats is not a
 measurement project.
 
-- **Sampling is uneven.** GitHub's scheduler is best-effort and throttles the
-  5-minute cron to roughly 13 minutes in practice. Real timestamps are recorded
-  rather than assumed, so gaps are visible instead of interpolated, but the
-  series is not a fixed grid.
-- **One issuer.** All tracked tokens are Backed Finance xStocks. Findings may
-  not generalise to other tokenization models, particularly synthetic ones.
+- **Two weekends is not a pattern.** Everything above should be read as a first
+  measurement, not an established result.
+- **Sampling is uneven.** GitHub throttles the schedule to roughly 13 minutes.
+  Real timestamps are recorded rather than assumed, so gaps are visible rather
+  than interpolated, but the series is not a fixed grid. Worst observed gap: 70
+  minutes.
+- **One issuer per asset class** for public equities — all xStocks are Backed
+  Finance. Findings may not generalise to other tokenization models.
+- **Pre-IPO valuations may not be defined identically** between issuers — fully
+  diluted versus post-money, different share classes, different SPV structures.
+  Some of the cross-issuer gap is likely definitional rather than disagreement,
+  and we cannot separate the two.
+- **Pre-IPO markets are thin.** One token moved 27% in four hours on its own.
 - **No liquidity weighting.** Every token counts equally in aggregate figures.
-  A thin token's drift is treated the same as a deep one's.
-- **Short window.** Collection began 11 September 2026. Early findings cover a
-  single weekend and should be read as a first measurement, not an established
-  pattern.
-- **Reference semantics.** The reference is a last-trade field, not an official
-  consolidated close. During the session it may lag by seconds.
+- **Sigma is a screening marker, not a probability.** The basis distribution has
+  fat tails.
+
+## We correct ourselves in public
+
+After the first weekend we published a forecast of Monday's open *before the
+bell*, so we could not quietly revise it afterwards. The second weekend forced
+us to retract three of our own claims, including our headline.
+
+The forecast, the scoring, and every correction are in this repository,
+unedited, with commit timestamps. See [RESULTS.md](RESULTS.md).
 
 ## Reproducing it
 
 Fork the repo, add a free [Finnhub](https://finnhub.io) API key as a repository
 secret named `FINNHUB_KEY`, and enable Actions. It will start collecting into
-your own fork. Nothing else is required — no server, no paid tier, no key for
-the Jupiter side.
+your own fork. Nothing else is required — no server, no paid tier, and no key at
+all for the Jupiter or pre-IPO sources.
 
 ## Built for
 
