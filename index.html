@@ -203,6 +203,54 @@ footer a{color:var(--mist)}
       <a href="https://github.com/LaSiNa67/basis-collector/blob/main/RESULTS.md">RESULTS.md</a>.</p>
   </section>
 
+  <section class="findings" id="private-wrap" style="display:none">
+    <h2>Where there is no market at all</h2>
+    <p>Pre-IPO tokens take the same question further. A tokenized share of SpaceX
+      has no open market behind it — not on weekends, not ever. The only reference
+      is the issuer's own valuation mark.</p>
+    <p class="state-detail" id="priv-note" style="margin-bottom:16px"></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th class="hide-sm">Issuer</th>
+          <th>Token</th>
+          <th>Issuer mark</th>
+          <th>Gap</th>
+        </tr>
+      </thead>
+      <tbody id="priv-rows"></tbody>
+    </table>
+
+    <div id="cross-wrap" style="display:none">
+      <h2 style="margin-top:40px">The same company, priced twice</h2>
+      <p>Several companies are tokenized by both issuers. Token prices aren't
+        comparable directly — they're scaled differently — so each is converted to
+        an implied company valuation. Two markets pricing the same private company,
+        with no public market anywhere to tie them together.</p>
+      <table style="margin-top:16px">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Tessera implies</th>
+            <th>PreStocks implies</th>
+            <th>Apart by</th>
+          </tr>
+        </thead>
+        <tbody id="cross-rows"></tbody>
+      </table>
+    </div>
+
+    <p class="caveat" style="margin-top:22px">Read these with care. The two issuers
+      may define valuation differently — fully diluted versus post-money, different
+      share classes, different SPV structures — so some of the gap is definitional
+      rather than disagreement, and we cannot separate the two. Tessera's marks sit
+      frozen across our whole sample; PreStocks nudges its own by a fraction of a
+      percent. These markets are also thin: one pre-IPO token moved 27% in four
+      hours on its own. Collection here began on 22 September, so this is days of
+      data, not weeks.</p>
+  </section>
+
   <footer>
     <p>On-chain prices from Jupiter. Reference prices from Finnhub, captured at each sample.
       Every sample is committed to a public repository, so the full history is timestamped and checkable.</p>
@@ -563,9 +611,66 @@ function drawState(){
 
 /* ---------------- boot ---------------- */
 
+async function loadPrivate(){
+  // Optional section: the pre-IPO collector started later and runs separately.
+  // If its file is missing the section simply never appears.
+  let rows;
+  try{
+    rows = parseCSV(await tryFetch("data/private.csv")).filter(r=>r.basis_bps);
+  }catch(e){ return; }
+  if(!rows.length) return;
+
+  const last = rows.map(r=>r.ts_utc).sort().pop();
+  const snap = rows.filter(r=>r.ts_utc===last);
+  if(!snap.length) return;
+
+  document.getElementById("private-wrap").style.display = "";
+  document.getElementById("priv-note").textContent =
+    `${snap.length} tokens across two issuers, sampled every 15 minutes. `
+    + `Gap is against each issuer's own mark.`;
+
+  document.getElementById("priv-rows").innerHTML = snap
+    .sort((a,b)=>parseFloat(a.basis_bps)-parseFloat(b.basis_bps))
+    .map(r=>{
+      const bps = parseFloat(r.basis_bps);
+      const cls = Math.abs(bps) < 3 ? "zero" : (bps > 0 ? "up" : "down");
+      return `<tr>
+        <td>${r.company}</td>
+        <td class="hide-sm frozen">${r.issuer}</td>
+        <td class="num">$${parseFloat(r.token_usd).toFixed(2)}</td>
+        <td class="num frozen">$${parseFloat(r.mark_usd).toFixed(2)}</td>
+        <td class="num bps ${cls}">${bps>0?"+":""}${bps.toFixed(0)}</td>
+      </tr>`;
+    }).join("");
+
+  // Companies covered by both issuers, compared on implied valuation.
+  const by = {};
+  snap.forEach(r=>{
+    if(!r.implied_valuation_usd) return;
+    (by[r.company] = by[r.company] || {})[r.issuer] = parseFloat(r.implied_valuation_usd);
+  });
+  const bn = v => "$" + (v/1e9).toFixed(v/1e9 < 100 ? 1 : 0) + "bn";
+  const cross = Object.entries(by)
+    .filter(([,v]) => v.tessera && v.prestocks)
+    .map(([c,v]) => ({c, t:v.tessera, p:v.prestocks,
+                      gap:(Math.max(v.tessera,v.prestocks)/Math.min(v.tessera,v.prestocks)-1)*100}))
+    .sort((a,b)=>b.gap-a.gap);
+
+  if(cross.length){
+    document.getElementById("cross-wrap").style.display = "";
+    document.getElementById("cross-rows").innerHTML = cross.map(x=>`<tr>
+      <td>${x.c}</td>
+      <td class="num">${bn(x.t)}</td>
+      <td class="num">${bn(x.p)}</td>
+      <td class="num bps up">${x.gap.toFixed(0)}%</td>
+    </tr>`).join("");
+  }
+}
+
 async function start(){
   drawState();
   setInterval(drawState, 20000);
+  loadPrivate();  // independent of the main dataset; failure here is silent
   try{
     await loadData();
   }catch(e){
@@ -579,6 +684,7 @@ async function start(){
   setInterval(async ()=>{ await loadLive(); drawPlot(); drawTable(); }, REFRESH_MS);
   setInterval(async ()=>{
     try{ await loadData(); drawHistory(); }catch(e){}
+    loadPrivate();
   }, 5*60*1000);
 }
 start();
