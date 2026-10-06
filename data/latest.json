@@ -1,176 +1,176 @@
 {
-  "generated_utc": "2026-10-06T01:26:26Z",
-  "session": "AFTERHOURS",
-  "reference_age_hours": 5.44,
+  "generated_utc": "2026-10-06T07:51:23Z",
+  "session": "PREMARKET",
+  "reference_age_hours": 11.86,
   "tokens": [
     {
       "symbol": "AAPLx",
       "underlying": "AAPL",
       "mint": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
-      "onchain_usd": 332.4429559562102,
+      "onchain_usd": 333.3772645183886,
       "reference_usd": 332.89,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": -13.43,
+      "basis_bps": 14.64,
       "baseline": {
-        "mean_bps": -21.47,
-        "sd_bps": 35.44,
-        "n": 1343
+        "mean_bps": -21.46,
+        "sd_bps": 35.43,
+        "n": 1344
       },
-      "dislocation_sigma": 0.23,
+      "dislocation_sigma": 1.02,
       "unusual": false
     },
     {
       "symbol": "NVDAx",
       "underlying": "NVDA",
       "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
-      "onchain_usd": 239.90841995096056,
+      "onchain_usd": 240.05817087899297,
       "reference_usd": 238.9,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 42.21,
+      "basis_bps": 48.48,
       "baseline": {
-        "mean_bps": -9.95,
-        "sd_bps": 71.74,
-        "n": 1343
+        "mean_bps": -9.91,
+        "sd_bps": 71.72,
+        "n": 1344
       },
-      "dislocation_sigma": 0.73,
+      "dislocation_sigma": 0.81,
       "unusual": false
     },
     {
       "symbol": "TSLAx",
       "underlying": "TSLA",
       "mint": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
-      "onchain_usd": 379.98957684877155,
+      "onchain_usd": 380.61448823518805,
       "reference_usd": 378.73,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 33.26,
+      "basis_bps": 49.76,
       "baseline": {
-        "mean_bps": 0.52,
-        "sd_bps": 57.03,
-        "n": 1343
+        "mean_bps": 0.55,
+        "sd_bps": 57.02,
+        "n": 1344
       },
-      "dislocation_sigma": 0.57,
+      "dislocation_sigma": 0.86,
       "unusual": false
     },
     {
       "symbol": "MSTRx",
       "underlying": "MSTR",
       "mint": "XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ",
-      "onchain_usd": 164.6036173779043,
+      "onchain_usd": 163.82178399127562,
       "reference_usd": 164.43,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 10.56,
+      "basis_bps": -36.99,
       "baseline": {
         "mean_bps": 21.68,
-        "sd_bps": 177.81,
-        "n": 1343
+        "sd_bps": 177.74,
+        "n": 1344
       },
-      "dislocation_sigma": -0.06,
+      "dislocation_sigma": -0.33,
       "unusual": false
     },
     {
       "symbol": "GOOGLx",
       "underlying": "GOOGL",
       "mint": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
-      "onchain_usd": 347.4646895479389,
+      "onchain_usd": 346.4672864435428,
       "reference_usd": 346.47,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 28.71,
+      "basis_bps": -0.08,
       "baseline": {
-        "mean_bps": 7.39,
-        "sd_bps": 63.95,
-        "n": 1343
+        "mean_bps": 7.4,
+        "sd_bps": 63.93,
+        "n": 1344
       },
-      "dislocation_sigma": 0.33,
+      "dislocation_sigma": -0.12,
       "unusual": false
     },
     {
       "symbol": "METAx",
       "underlying": "META",
       "mint": "Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu",
-      "onchain_usd": 740.8301649597175,
+      "onchain_usd": 745.1982134101978,
       "reference_usd": 741.9,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": -14.42,
+      "basis_bps": 44.46,
       "baseline": {
-        "mean_bps": 9.83,
-        "sd_bps": 77.13,
-        "n": 1343
+        "mean_bps": 9.81,
+        "sd_bps": 77.11,
+        "n": 1344
       },
-      "dislocation_sigma": -0.31,
+      "dislocation_sigma": 0.45,
       "unusual": false
     },
     {
       "symbol": "AMZNx",
       "underlying": "AMZN",
       "mint": "Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg",
-      "onchain_usd": 251.4727069796827,
+      "onchain_usd": 252.38298697442153,
       "reference_usd": 251.4,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 2.89,
+      "basis_bps": 39.1,
       "baseline": {
-        "mean_bps": -8.33,
-        "sd_bps": 51.54,
-        "n": 1343
+        "mean_bps": -8.32,
+        "sd_bps": 51.52,
+        "n": 1344
       },
-      "dislocation_sigma": 0.22,
+      "dislocation_sigma": 0.92,
       "unusual": false
     },
     {
       "symbol": "SPYx",
       "underlying": "SPY",
       "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
-      "onchain_usd": 775.3184665675187,
+      "onchain_usd": 775.9554903332747,
       "reference_usd": 774.83,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 6.3,
+      "basis_bps": 14.53,
       "baseline": {
         "mean_bps": 3.38,
-        "sd_bps": 32.33,
-        "n": 1343
+        "sd_bps": 32.31,
+        "n": 1344
       },
-      "dislocation_sigma": 0.09,
+      "dislocation_sigma": 0.35,
       "unusual": false
     },
     {
       "symbol": "QQQx",
       "underlying": "QQQ",
       "mint": "Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
-      "onchain_usd": 756.0165868534996,
+      "onchain_usd": 756.3490013866027,
       "reference_usd": 756.2,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": -2.43,
+      "basis_bps": 1.97,
       "baseline": {
         "mean_bps": -7.94,
-        "sd_bps": 48.51,
-        "n": 1343
+        "sd_bps": 48.49,
+        "n": 1344
       },
-      "dislocation_sigma": 0.11,
+      "dislocation_sigma": 0.2,
       "unusual": false
     },
     {
       "symbol": "COINx",
       "underlying": "COIN",
       "mint": "Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu",
-      "onchain_usd": 188.73841410005932,
+      "onchain_usd": 188.02148950237583,
       "reference_usd": 188.22,
-      "reference_age_hours": 5.44,
+      "reference_age_hours": 11.86,
       "reference_is_live": false,
-      "basis_bps": 27.54,
+      "basis_bps": -10.55,
       "baseline": {
-        "mean_bps": -14.88,
-        "sd_bps": 137.38,
-        "n": 1343
+        "mean_bps": -14.85,
+        "sd_bps": 137.33,
+        "n": 1344
       },
-      "dislocation_sigma": 0.31,
+      "dislocation_sigma": 0.03,
       "unusual": false
     }
   ],
