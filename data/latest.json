@@ -1,180 +1,189 @@
 {
-  "generated_utc": "2026-10-29T19:29:19Z",
-  "session": "OPEN",
-  "reference_age_hours": 0.0,
+  "generated_utc": "2026-10-29T23:30:06Z",
+  "session": "AFTERHOURS",
+  "reference_age_hours": 3.5,
   "tokens": [
     {
       "symbol": "AAPLx",
       "underlying": "AAPL",
       "mint": "XsbEhLAtcf6HdfpFZ5xEMdqW8nfAvcsP5bdudRLJzJp",
-      "onchain_usd": 349.5154117862822,
-      "reference_usd": 350.29,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -22.11,
+      "onchain_usd": 351.96682240594714,
+      "reference_usd": 348.91,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": 87.61,
       "baseline": {
-        "mean_bps": -9.89,
-        "sd_bps": 19.45,
-        "n": 337
+        "mean_bps": -20.98,
+        "sd_bps": 35.88,
+        "n": 1453
       },
-      "dislocation_sigma": -0.63,
-      "unusual": false
+      "dislocation_sigma": 3.03,
+      "unusual": true
     },
     {
       "symbol": "NVDAx",
       "underlying": "NVDA",
       "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
-      "onchain_usd": 212.72746684916905,
-      "reference_usd": 212.87,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -6.7,
+      "onchain_usd": 209.1780528171291,
+      "reference_usd": 213.66,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -209.77,
       "baseline": {
-        "mean_bps": -4.49,
-        "sd_bps": 13.32,
-        "n": 337
+        "mean_bps": -8.55,
+        "sd_bps": 72.18,
+        "n": 1453
       },
-      "dislocation_sigma": -0.17,
-      "unusual": false
+      "dislocation_sigma": -2.79,
+      "unusual": true
     },
     {
       "symbol": "TSLAx",
       "underlying": "TSLA",
       "mint": "XsDoVfqeBukxuZHWhdvWHBhgEHjGNst4MLodqsJHzoB",
-      "onchain_usd": 404.07853863808657,
-      "reference_usd": 404.37,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -7.21,
+      "onchain_usd": 396.15689783078295,
+      "reference_usd": 403.3,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -177.12,
       "baseline": {
-        "mean_bps": -5.58,
-        "sd_bps": 12.94,
-        "n": 337
+        "mean_bps": -1.1,
+        "sd_bps": 63.93,
+        "n": 1453
       },
-      "dislocation_sigma": -0.13,
-      "unusual": false
+      "dislocation_sigma": -2.75,
+      "unusual": true
     },
     {
       "symbol": "MSTRx",
       "underlying": "MSTR",
       "mint": "XsP7xzNPvEHS1m6qfanPUGjNmdnmsLKEoNAnHjdxxyZ",
-      "onchain_usd": 141.2648222014281,
-      "reference_usd": 141.16,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": 7.43,
+      "onchain_usd": 135.81136099416125,
+      "reference_usd": 141.62,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -410.16,
       "baseline": {
-        "mean_bps": -1.91,
-        "sd_bps": 21.94,
-        "n": 337
+        "mean_bps": 17.7,
+        "sd_bps": 175.65,
+        "n": 1453
       },
-      "dislocation_sigma": 0.43,
-      "unusual": false
+      "dislocation_sigma": -2.44,
+      "unusual": true
     },
     {
       "symbol": "GOOGLx",
       "underlying": "GOOGL",
       "mint": "XsCPL9dNWBMvFtTmwcCA5v3xWPSMEBCszbQdiLLq6aN",
-      "onchain_usd": 283.3055856487005,
-      "reference_usd": 283.15,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": 5.49,
+      "onchain_usd": 280.0625402471479,
+      "reference_usd": 283.82,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -132.39,
       "baseline": {
-        "mean_bps": -11.96,
-        "sd_bps": 26.51,
-        "n": 337
+        "mean_bps": 4.24,
+        "sd_bps": 77.47,
+        "n": 1453
       },
-      "dislocation_sigma": 0.66,
+      "dislocation_sigma": -1.76,
       "unusual": false
     },
     {
       "symbol": "METAx",
       "underlying": "META",
       "mint": "Xsa62P5mvPszXL1krVUnU5ar38bBSVcWAB6fmPCo5Zu",
-      "onchain_usd": 627.9104162560732,
-      "reference_usd": 628.17,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -4.13,
+      "onchain_usd": 620.2676383698107,
+      "reference_usd": 624.52,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -68.09,
       "baseline": {
-        "mean_bps": -5.85,
-        "sd_bps": 25.8,
-        "n": 337
+        "mean_bps": 8.69,
+        "sd_bps": 78.4,
+        "n": 1453
       },
-      "dislocation_sigma": 0.07,
+      "dislocation_sigma": -0.98,
       "unusual": false
     },
     {
       "symbol": "AMZNx",
       "underlying": "AMZN",
       "mint": "Xs3eBt7uRfJX8QUs4suhyU8p2M6DoUDrJyWBa8LLZsg",
-      "onchain_usd": 245.0532553028439,
-      "reference_usd": 245.1,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -1.91,
+      "onchain_usd": 227.7655012613542,
+      "reference_usd": 243.79,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -657.31,
       "baseline": {
-        "mean_bps": -10.77,
-        "sd_bps": 23.27,
-        "n": 337
+        "mean_bps": -8.4,
+        "sd_bps": 51.48,
+        "n": 1453
       },
-      "dislocation_sigma": 0.38,
-      "unusual": false
+      "dislocation_sigma": -12.61,
+      "unusual": true
     },
     {
       "symbol": "SPYx",
       "underlying": "SPY",
       "mint": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
-      "onchain_usd": 767.5955362200353,
-      "reference_usd": 768.17,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -7.48,
+      "onchain_usd": 763.7384143653017,
+      "reference_usd": 769.36,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -73.07,
       "baseline": {
-        "mean_bps": -4.56,
-        "sd_bps": 14.35,
-        "n": 337
+        "mean_bps": 2.93,
+        "sd_bps": 31.9,
+        "n": 1453
       },
-      "dislocation_sigma": -0.2,
-      "unusual": false
+      "dislocation_sigma": -2.38,
+      "unusual": true
     },
     {
       "symbol": "QQQx",
       "underlying": "QQQ",
       "mint": "Xs8S1uUs1zvS2p7iwtsG3b6fkhpvmwz4GYU3gWAmWHZ",
-      "onchain_usd": 712.1107053233202,
-      "reference_usd": 713.6,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": -20.87,
+      "onchain_usd": 703.1173460363457,
+      "reference_usd": 715.34,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -170.86,
       "baseline": {
-        "mean_bps": -5.93,
-        "sd_bps": 18.29,
-        "n": 337
+        "mean_bps": -8.04,
+        "sd_bps": 48.26,
+        "n": 1453
       },
-      "dislocation_sigma": -0.82,
-      "unusual": false
+      "dislocation_sigma": -3.37,
+      "unusual": true
     },
     {
       "symbol": "COINx",
       "underlying": "COIN",
       "mint": "Xs7ZdzSHLU9ftNJsii5fCeJhoRWSC32SQGzGQtePxNu",
-      "onchain_usd": 159.19427166394038,
-      "reference_usd": 159.15,
-      "reference_age_hours": 0.0,
-      "reference_is_live": true,
-      "basis_bps": 2.78,
+      "onchain_usd": 155.5172141418892,
+      "reference_usd": 160.59,
+      "reference_age_hours": 3.5,
+      "reference_is_live": false,
+      "basis_bps": -315.88,
       "baseline": {
-        "mean_bps": -13.83,
-        "sd_bps": 45.57,
-        "n": 337
+        "mean_bps": -15.51,
+        "sd_bps": 135.45,
+        "n": 1453
       },
-      "dislocation_sigma": 0.36,
-      "unusual": false
+      "dislocation_sigma": -2.22,
+      "unusual": true
     }
   ],
-  "unusual": [],
+  "unusual": [
+    "AAPLx",
+    "NVDAx",
+    "TSLAx",
+    "MSTRx",
+    "AMZNx",
+    "SPYx",
+    "QQQx",
+    "COINx"
+  ],
   "notes": {
     "basis_bps": "(onchain - reference) / reference * 10000. Positive = token above reference.",
     "reference_age_hours": "Hours since the last real closing print. 0 while the market trades.",
